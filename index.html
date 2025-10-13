@@ -3,196 +3,157 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Stuga i Kläppen – Familjevänligt boende halvvägs upp i backen</title>
-  <meta name="description" content="Modern, familjevänlig stuga i Kläppen med ski-in/ski-out. 8 bäddar, bastu, kamin och snabbt Wi-Fi. Se lediga veckor och skicka bokningsförfrågan." />
-  <meta name="theme-color" content="#0b0b0b" media="(prefers-color-scheme: dark)">
+  <title>516 Kläppen – Familjevänligt boende halvvägs upp i backen</title>
+  <meta name="description" content="Charmigt familjeboende på 516 Kläppen. Ski-in/ski-out, bastu, kamin, snabbt Wi-Fi. Se lediga veckor och skicka bokningsförfrågan." />
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b0b0b" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="favicon.ico" />
   <!-- Open Graph -->
-  <meta property="og:title" content="Stuga i Kläppen – Familjevänligt boende" />
+  <meta property="og:title" content="516 Kläppen – Familjevänligt boende" />
   <meta property="og:description" content="Ski-in/ski-out, bastu, kamin och Wi-Fi. Se lediga veckor och boka." />
-  <meta property="og:image" content="DIN_BILD_OG.jpg" />
+  <meta property="og:image" content="OG_IMAGE_1200x630.jpg" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="sv_SE" />
 
   <style>
-    /* ======= Design Tokens ======= */
+    /* ===== Design Tokens ===== */
     :root{
-      --bg: #f7f7f7;
-      --paper: #ffffff;
-      --ink: #0a0a0a;
-      --muted: #6b7280;         /* grey-500 */
-      --line: #e6e7eb;
-      --brand: #111111;
-      --accent: #0b84fe;        /* subtle blue for focus/links */
-      --ok: #16a34a;            /* green */
-      --no: #ef4444;            /* red */
-      --warn:#f59e0b;           /* amber */
-      --shadow: 0 10px 30px rgba(0,0,0,.06);
-      --radius-lg: 20px;
-      --radius-md: 14px;
-      --radius-sm: 10px;
+      --maxw: 1200px;
+      --gutter: clamp(16px, 3vw, 28px);
 
-      --step--1: clamp(.86rem, .80rem + .2vw, .95rem);
-      --step-0: clamp(1rem, .96rem + .3vw, 1.08rem);
-      --step-1: clamp(1.15rem, 1.07rem + .5vw, 1.35rem);
-      --step-2: clamp(1.35rem, 1.24rem + .7vw, 1.7rem);
-      --step-3: clamp(1.6rem, 1.4rem + 1vw, 2.1rem);
-      --step-4: clamp(2rem, 1.7rem + 1.6vw, 2.8rem);
+      --bg:#f7f7f7; --paper:#fff; --ink:#0a0a0a; --muted:#6b7280; --line:#e6e7eb;
+      --brand:#111111; --accent:#0b84fe; --ok:#16a34a; --no:#ef4444; --warn:#f59e0b;
+      --shadow: 0 10px 30px rgba(0,0,0,.06);
+      --r-lg:20px; --r-md:14px;
+
+      --fs--1: clamp(.9rem, .85rem + .2vw, 1rem);
+      --fs-0: clamp(1rem, .96rem + .3vw, 1.08rem);
+      --fs-1: clamp(1.15rem, 1.05rem + .6vw, 1.35rem);
+      --fs-2: clamp(1.35rem, 1.2rem + .8vw, 1.7rem);
+      --fs-3: clamp(1.8rem, 1.6rem + 1.4vw, 2.4rem);
+      --fs-4: clamp(2.2rem, 1.9rem + 2vw, 3rem);
     }
     @media (prefers-color-scheme: dark){
-      :root{
-        --bg: #0b0b0b;
-        --paper:#101010;
-        --ink: #f2f2f2;
-        --muted:#9aa0a6;
-        --line:#1f1f1f;
-        --accent:#4aa3ff;
-        --shadow: 0 10px 30px rgba(0,0,0,.4);
-      }
+      :root{ --bg:#0b0b0b; --paper:#101010; --ink:#f2f2f2; --muted:#9aa0a6; --line:#1f1f1f; --accent:#4aa3ff; --shadow:0 10px 30px rgba(0,0,0,.4); }
     }
 
-    /* ======= Base ======= */
+    /* Base */
     *,*::before,*::after{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0;
-      color:var(--ink);
-      background:var(--bg);
-      font: 16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      text-rendering:optimizeLegibility;
+      margin:0; color:var(--ink); background:var(--bg);
+      font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; text-rendering:optimizeLegibility;
     }
-    a{color:inherit;text-decoration:none}
-    a:focus-visible, .btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:10px}
-    img{max-width:100%;height:auto;display:block}
+    a{color:inherit; text-decoration:none}
+    a:focus-visible, .btn:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:12px}
+    img{display:block; max-width:100%; height:auto}
 
-    .wrap{max-width:1200px;margin:0 auto;padding: clamp(16px, 3vw, 28px);}
-    .paper{background:var(--paper); border:1px solid var(--line); border-radius:var(--radius-lg); box-shadow:var(--shadow)}
+    .container{max-width:var(--maxw); margin-inline:auto; padding-inline:var(--gutter);}
+    .section{margin-block: clamp(28px, 5vw, 48px)}
+    .paper{background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow)}
     .muted{color:var(--muted)}
-    .hr{height:1px;background:var(--line);margin:16px 0}
+    .center{text-align:center}
+    .grid{display:grid; gap: clamp(10px, 2.5vw, 16px); justify-items:center}
 
-    /* ======= Navigation ======= */
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0}
-    .brand{font-weight:700; letter-spacing:.2px}
-    .badge{
-      display:inline-flex;align-items:center;gap:10px;
-      background:var(--paper);border:1px solid var(--line);
-      padding:10px 14px;border-radius:999px;box-shadow:var(--shadow);font-size:var(--step--1)
-    }
+    /* Nav */
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:12px; padding-block:12px}
+    .brand{font-weight:800; letter-spacing:.2px}
+    .badge{display:inline-flex; align-items:center; gap:10px; background:var(--paper); border:1px solid var(--line); padding:10px 14px; border-radius:999px; box-shadow:var(--shadow); font-size:var(--fs--1)}
     .badge svg{width:18px;height:18px}
 
-    /* ======= Hero ======= */
-    .hero{position:relative; border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow)}
-    .hero .media{width:100%; aspect-ratio: 16/9; background:#000}
-    .hero .media img{width:100%;height:100%;object-fit:cover}
-    .hero .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.55))}
-    .hero .content{position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding: clamp(16px, 4vw, 32px); color:#fff}
-    .eyebrow{opacity:.9; font-size:var(--step--1); letter-spacing:.02em}
-    h1{margin:.2em 0 .4em; font-weight:800; line-height:1.1; font-size:var(--step-4)}
-    .sub{opacity:.95; font-size:var(--step-1); max-width: 70ch}
-    .cta{margin-top:14px; display:flex; gap:10px; flex-wrap:wrap}
-    .btn{
-      display:inline-flex; align-items:center; gap:10px;
-      background:#fff; color:#111; font-weight:700; letter-spacing:.2px;
-      padding:12px 18px; border-radius:14px; border:1px solid #fff; box-shadow:var(--shadow);
-      transition: transform .06s ease, box-shadow .2s ease;
-      touch-action:manipulation; -webkit-tap-highlight-color:transparent;
-    }
+    /* Hero */
+    .hero{position:relative; border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow)}
+    .hero .media{width:100%; aspect-ratio:16/9; background:#000}
+    .hero .media img{width:100%; height:100%; object-fit:cover}
+    .hero .overlay{position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.55))}
+    .hero .content{position:absolute; inset:0; display:grid; place-items:end center; padding: clamp(16px, 4vw, 32px); color:#fff; text-align:center}
+    .eyebrow{opacity:.9; font-size:var(--fs--1); letter-spacing:.02em}
+    h1{margin:.2em 0 .4em; font-weight:800; line-height:1.1; font-size:var(--fs-4)}
+    .sub{opacity:.95; font-size:var(--fs-1); max-width:72ch; margin-inline:auto}
+    .cta{margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center}
+    .btn{display:inline-flex; align-items:center; gap:10px; background:#fff; color:#111; font-weight:800; padding:12px 18px; border-radius:14px; border:1px solid #fff; box-shadow:var(--shadow); transition:transform .06s ease, box-shadow .2s ease}
     .btn:hover{transform:translateY(-1px)}
-    .btn.outline{background:transparent;color:#fff;border-color:rgba(255,255,255,.7)}
-    .btn.icon svg{width:18px;height:18px}
+    .btn.outline{background:transparent; color:#fff; border-color:rgba(255,255,255,.7)}
+    .btn.icon svg{width:18px; height:18px}
 
-    /* ======= Feature Cards ======= */
-    .grid{display:grid; gap: clamp(10px, 2.5vw, 16px)}
-    .grid.features{grid-template-columns: repeat(4, minmax(0,1fr))}
-    .card{padding: clamp(14px, 2.5vw, 18px)}
-    .card h3{margin:6px 0 4px; font-size:var(--step-1); line-height:1.2}
+    /* Features */
+    .features{grid-template-columns: repeat(4, minmax(0,1fr))}
+    .card{padding: clamp(14px, 2.5vw, 18px); text-align:center}
+    .card h3{margin:6px 0 4px; font-size:var(--fs-1); line-height:1.2}
 
-    /* ======= Sections ======= */
-    .section{margin: clamp(28px, 5vw, 44px) 0}
-    .section h2{font-size:var(--step-3); line-height:1.2; margin:0 0 10px}
+    /* Gallery / Explore */
+    .gallery{grid-template-columns: repeat(3, minmax(0,1fr))}
+    .tile{border-radius:var(--r-lg); overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow)}
+    .tile img{aspect-ratio:4/3; object-fit:cover}
 
-    /* ======= Details / Split ======= */
-    .split{display:grid; grid-template-columns: 1.2fr .8fr; gap: clamp(12px, 3vw, 18px)}
+    /* Split blocks */
+    .split{display:grid; grid-template-columns: 1.1fr .9fr; gap: clamp(12px, 3vw, 18px); align-items:start}
     .list{padding: clamp(14px, 2.5vw, 18px)}
     .list ul{margin:0; padding-left: 18px}
     .contact{padding: clamp(14px, 2.5vw, 18px)}
     .stack{display:flex; flex-direction:column; gap:10px}
     .btn.block{justify-content:center; width:100%}
-    .notice{font-size:var(--step--1); color:var(--muted)}
+    .notice{font-size:var(--fs--1); color:var(--muted); text-align:center}
 
-    /* ======= Availability ======= */
-    .legend{display:flex; gap:10px; align-items:center; flex-wrap:wrap; font-size:var(--step--1)}
-    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--line);
-      border-radius:999px; background:var(--paper)}
+    /* Availability */
+    .legend{display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap; font-size:var(--fs--1); margin-bottom:8px}
+    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--line); border-radius:999px; background:var(--paper)}
     .dot{width:10px; height:10px; border-radius:999px}
-    .dot.ok{background:var(--ok)}
-    .dot.no{background:var(--no)}
-    .dot.pending{background:var(--warn)}
-    .calendar{display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: clamp(10px, 2.5vw, 16px)}
-    .week{
-      padding:14px; border-radius:var(--radius-md); border:1px solid var(--line); background:var(--paper);
-      display:flex; flex-direction:column; gap:4px; min-height:94px
-    }
-    .week strong{font-weight:700}
-    .tag{
-      align-self:flex-start; font-size:var(--step--1);
-      border-radius:999px; padding:4px 8px; display:inline-block;
-      border:1px solid var(--line); background:var(--paper)
-    }
-    .available{outline:2px solid color-mix(in oklab, var(--ok) 30%, transparent)}
-    .tag.ok{border-color: color-mix(in oklab, var(--ok) 35%, transparent); color:#065f46}
-    .tag.no{border-color: color-mix(in oklab, var(--no) 35%, transparent); color:#7f1d1d}
-    .tag.pending{border-color: color-mix(in oklab, var(--warn) 35%, transparent); color:#7a3d00}
+    .dot.ok{background:var(--ok)} .dot.no{background:var(--no)} .dot.pending{background:var(--warn)}
 
-    /* ======= Sticky Mobile Bar ======= */
-    .sticky{
-      position:sticky; bottom:0; z-index:50;
-      background: color-mix(in srgb, var(--paper) 92%, transparent);
-      backdrop-filter: saturate(140%) blur(12px);
-      border-top:1px solid var(--line); display:none;
-      padding: env(safe-area-inset-bottom, 0);
-    }
-    .sticky .inner{max-width:1200px; margin:0 auto; padding:10px clamp(12px, 3vw, 16px); display:flex; justify-content:space-between; align-items:center; gap:10px}
-    .smBtn{padding:10px 14px; border-radius:12px; border:1px solid var(--line); background:var(--paper); font-weight:700}
+    .calendar{grid-template-columns: repeat(4, minmax(0,1fr))}
+    .week{width:100%; padding:14px; border-radius:var(--r-md); border:1px solid var(--line); background:var(--paper); display:grid; gap:6px; justify-items:center; text-align:center; min-height:110px}
+    .week strong{font-weight:800}
+    .tag{font-size:var(--fs--1); border-radius:999px; padding:4px 8px; border:1px solid var(--line); background:var(--paper)}
+    .available{outline:2px solid rgba(22,163,74,.26)}
+    .tag.ok{border-color:rgba(22,163,74,.35); color:#065f46}
+    .tag.no{border-color:rgba(239,68,68,.35); color:#7f1d1d}
+    .tag.pending{border-color:rgba(245,158,11,.35); color:#7a3d00}
+
+    /* FAQ / Reviews */
+    .faq{grid-template-columns: repeat(2, minmax(0,1fr))}
+    details{width:100%}
+    details summary{cursor:pointer; list-style:none; font-weight:700; padding:12px 0}
+    details summary::-webkit-details-marker{display:none}
+    .answer{border-top:1px solid var(--line); padding-top:8px; color:var(--muted)}
+
+    /* Sticky mobile bar */
+    .sticky{position:sticky; bottom:0; z-index:50; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: saturate(140%) blur(12px); border-top:1px solid var(--line); display:none; padding-bottom: env(safe-area-inset-bottom, 0)}
+    .sticky .inner{max-width:var(--maxw); margin:0 auto; padding:10px var(--gutter); display:flex; justify-content:space-between; align-items:center; gap:10px}
+    .smBtn{padding:10px 14px; border-radius:12px; border:1px solid var(--line); background:var(--paper); font-weight:800}
     .smBtn.primary{background:var(--brand); color:#fff; border-color:var(--brand)}
 
-    /* ======= Footer ======= */
-    footer{padding: clamp(20px, 4vw, 32px) 0; color:var(--muted); font-size:var(--step--1)}
+    /* Footer */
+    footer{padding: clamp(20px, 4vw, 32px) 0; color:var(--muted); font-size:var(--fs--1); text-align:center}
 
-    /* ======= Motion & Accessibility ======= */
-    @media (prefers-reduced-motion: reduce){
-      *{scroll-behavior:auto !important; animation:none !important; transition:none !important}
-    }
-
-    /* ======= Responsive ======= */
+    /* Responsive */
     @media (max-width: 1100px){
-      .grid.features{grid-template-columns: repeat(2, minmax(0,1fr))}
+      .features{grid-template-columns: repeat(2, minmax(0,1fr))}
       .calendar{grid-template-columns: repeat(2, minmax(0,1fr))}
-      .split{grid-template-columns: 1fr}
+      .gallery{grid-template-columns: repeat(2, minmax(0,1fr))}
+      .faq{grid-template-columns: 1fr}
+      .split{grid-template-columns:1fr}
+      .list, .contact{text-align:center}
+      .list ul{display:inline-block; text-align:left}
     }
     @media (max-width: 560px){
-      .grid.features{grid-template-columns: 1fr}
-      .calendar{grid-template-columns: 1fr}
+      .features, .calendar{grid-template-columns:1fr}
       .sticky{display:block}
-      h1{font-size: var(--step-3)}
+      h1{font-size:var(--fs-3)}
     }
 
-    /* ======= Print: house facts only ======= */
-    @media print{
-      .nav,.hero,.cta,.grid.features,.sticky,footer{display:none !important}
-      .wrap{padding:0}
-      body{background:#fff;color:#000}
-    }
+    /* A11y / motion / print */
+    @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important} }
+    @media print{ .nav,.hero,.cta,.features,.gallery,.sticky,footer{display:none !important} body{background:#fff;color:#000} .container{padding:0} }
   </style>
 
-  <!-- JSON-LD for richer search -->
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"LodgingBusiness",
-    "name":"Stuga i Kläppen",
+    "name":"516 Kläppen",
     "description":"Familjevänlig stuga halvvägs upp för backen i Kläppen. Ski-in/ski-out, bastu, kamin och Wi-Fi.",
     "amenityFeature":[
       {"@type":"LocationFeatureSpecification","name":"Ski-in/ski-out","value":true},
@@ -202,7 +163,7 @@
       {"@type":"LocationFeatureSpecification","name":"Parkering","value":true}
     ],
     "address":{"@type":"PostalAddress","addressCountry":"SE","addressLocality":"Kläppen"},
-    "image":"DIN_BILD_OG.jpg",
+    "image":"OG_IMAGE_1200x630.jpg",
     "url":"https://www.dindomain.se",
     "telephone":"+46 70 000 00 00",
     "priceRange":"4000–12000 SEK/vecka"
@@ -211,166 +172,168 @@
 </head>
 <body>
 
-  <!-- ======= NAV ======= -->
-  <div class="wrap nav" aria-label="Toppnavigering">
-    <div class="brand">Kläppen-stugan</div>
+  <!-- NAV -->
+  <header class="container nav" aria-label="Toppnavigering">
+    <div class="brand">516 Kläppen</div>
     <div class="badge" title="Halvvägs upp för backen · Ski-in/Ski-out">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-        <path stroke-width="1.6" d="M3 18l7-12 4 7 3-5 4 10H3z"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-width="1.6" d="M3 18l7-12 4 7 3-5 4 10H3z"/></svg>
       Halvvägs upp för backen
     </div>
-  </div>
+  </header>
 
-  <!-- ======= HERO ======= -->
-  <div class="wrap">
-    <section class="hero" aria-label="Omslagsbild">
+  <!-- HERO -->
+  <section class="container section">
+    <div class="hero" aria-label="Omslagsbild">
       <div class="media">
-        <!-- Serve a modern WebP first, fall back to JPG/PNG -->
         <picture>
-          <source srcset="DIN_BILD_1920.webp 1920w, DIN_BILD_1280.webp 1280w, DIN_BILD_800.webp 800w" type="image/webp" />
-          <source srcset="DIN_BILD_1920.jpg 1920w, DIN_BILD_1280.jpg 1280w, DIN_BILD_800.jpg 800w" type="image/jpeg" />
-          <img src="DIN_BILD_1280.jpg" alt="Stugan i Kläppen med utsikt över pisten" loading="eager" decoding="async" />
+          <source srcset="HERO_1920.webp 1920w, HERO_1280.webp 1280w, HERO_800.webp 800w" type="image/webp" />
+          <source srcset="HERO_1920.jpg 1920w, HERO_1280.jpg 1280w, HERO_800.jpg 800w" type="image/jpeg" />
+          <img src="HERO_1280.jpg" alt="Stugan i Kläppen med utsikt över pisten" loading="eager" decoding="async" />
         </picture>
       </div>
       <div class="overlay" aria-hidden="true"></div>
       <div class="content">
-        <div class="eyebrow">Kläppen, Dalarna · Ski-in/Ski-out</div>
-        <h1>Chic, lugn & familjevänlig stuga</h1>
-        <p class="sub">8 bäddar · bastu · kamin · snabbt Wi-Fi · parkering. Veckovis uthyrning – kliv rakt ut i pisten och njut av fjällmiljön.</p>
-        <div class="cta">
-          <a class="btn icon" href="#boka" aria-label="Gå till bokning">
-            <!-- calendar icon -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-            Se lediga veckor & boka
-          </a>
-          <a class="btn outline" href="#detaljer">Se detaljer</a>
+        <div class="center">
+          <div class="eyebrow">Kläppen, Dalarna · Ski-in/Ski-out</div>
+          <h1>Charmigt familjeboende i Kläppen</h1>
+          <p class="sub">Två sovrum (8 bäddar), bastu, kamin, snabbt Wi-Fi och parkering – halvvägs upp för backen. Boka ditt perfekta semesterboende redan idag.</p>
+          <div class="cta">
+            <a class="btn icon" href="#boka" aria-label="Gå till bokning">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Se lediga veckor & boka
+            </a>
+            <a class="btn outline" href="#om">Läs mer</a>
+          </div>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 
-  <!-- ======= FEATURES ======= -->
-  <div class="wrap section">
-    <section class="grid features" aria-label="Funktioner">
-      <article class="paper card">
-        <h3>Perfekt läge</h3>
-        <p class="muted">Halvvägs upp för backen – nära lift och längdspår. Äkta ski-in/ski-out.</p>
-      </article>
-      <article class="paper card">
-        <h3>Familjevänligt</h3>
-        <p class="muted">8 bäddar, barnvänligt, fullt kök, tvätt, parkering vid huset.</p>
-      </article>
-      <article class="paper card">
-        <h3>Avkoppling</h3>
-        <p class="muted">Bastu och öppen spis för mysiga kvällar efter backen.</p>
-      </article>
-      <article class="paper card">
-        <h3>Uppkopplat</h3>
-        <p class="muted">Snabbt Wi-Fi för jobb och streaming – även när snön yr.</p>
-      </article>
-    </section>
-  </div>
+  <!-- FEATURES -->
+  <section class="container section">
+    <div class="grid features">
+      <article class="paper card"><h3>Perfekt läge</h3><p class="muted">Halvvägs upp för backen – nära lift och längdspår.</p></article>
+      <article class="paper card"><h3>Familjevänligt</h3><p class="muted">8 bäddar, barnvänligt, fullt kök och tvätt.</p></article>
+      <article class="paper card"><h3>Avkoppling</h3><p class="muted">Bastu och öppen spis för mysiga kvällar.</p></article>
+      <article class="paper card"><h3>Uppkopplat</h3><p class="muted">Snabbt Wi-Fi för jobb, streaming och spel.</p></article>
+    </div>
+  </section>
 
-  <!-- ======= DETAILS ======= -->
-  <div class="wrap" id="detaljer">
-    <section class="paper section split" aria-label="Detaljer och pris">
-      <div class="list">
+  <!-- OM / ABOUT -->
+  <section class="container section" id="om">
+    <div class="paper list center">
+      <h2>Om 516 Kläppen</h2>
+      <p>Vår stuga ligger i ett lugnt område med ski-in/ski-out och närhet till både liftar och längdspår. Perfekt för familjer som vill koppla av och njuta av fjällmiljön.</p>
+      <ul style="display:inline-block; text-align:left">
+        <li>2 sovrum + loft (8 bäddar)</li>
+        <li>Bastu, öppen spis, torkskåp</li>
+        <li>Fullt utrustat kök (spis/ugn, diskmaskin, mikro, kaffebryggare)</li>
+        <li>Smart-TV, snabbt Wi-Fi</li>
+        <li>Ski-storage & parkering vid huset</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- EXPLORE / GALLERY -->
+  <section class="container section" id="utforska" aria-label="Utforska Kläppen">
+    <h2 class="center">Utforska Kläppen</h2>
+    <div class="grid gallery">
+      <a class="tile" href="#" aria-label="Utsikt"><img src="G1.jpg" alt="Utsikt från stugan"></a>
+      <a class="tile" href="#" aria-label="Interiör"><img src="G2.jpg" alt="Interiör med kamin"></a>
+      <a class="tile" href="#" aria-label="Backe"><img src="G3.jpg" alt="Backe nära stugan"></a>
+    </div>
+  </section>
+
+  <!-- DETAILS / CONTACT -->
+  <section class="container section" id="detaljer">
+    <div class="split">
+      <div class="paper list center">
         <h2>Detaljer & pris</h2>
         <p><strong>Pris:</strong> <span id="pris">4 000 kr/vecka</span> (säsongsvariationer förekommer). <strong>Rökfritt</strong> och <strong>inga husdjur</strong>.</p>
-        <ul>
-          <li>2 sovrum + loft (8 bäddar)</li>
-          <li>Bastu, öppen spis, torkskåp</li>
-          <li>Fullt utrustat kök (spis/ugn, diskmaskin, mikro, kaffebryggare)</li>
-          <li>Snabbt Wi-Fi, smart-TV</li>
-          <li>Ski-storage & parkering vid huset</li>
-        </ul>
+        <p class="muted">Faktura/Swish efter bekräftad bokning.</p>
       </div>
-      <aside class="contact">
+      <aside class="paper contact center">
         <h2>Kontakt</h2>
         <div class="stack" role="group" aria-label="Kontaktalternativ">
           <a class="btn block" href="https://docs.google.com/forms/d/DIN_FORM_ID/viewform" target="_blank" rel="noopener">Skicka bokningsförfrågan</a>
-          <a class="btn block" href="tel:+46700000000"    aria-label="Ring oss">Ring: 070-000 00 00</a>
-          <a class="btn block" href="mailto:familj@dindomain.se" aria-label="Maila oss">Maila: familj@dindomain.se</a>
+          <a class="btn block" href="tel:+46700000000">Ring: 070-000 00 00</a>
+          <a class="btn block" href="mailto:familj@dindomain.se">Maila: familj@dindomain.se</a>
         </div>
-        <p class="notice" style="margin-top:8px">Vi värnar lugnet: inga fester, rökfritt, inga husdjur.</p>
+        <p class="muted" style="margin-top:8px">Adress: 516 Kläppen, 780 68 Transtrand</p>
       </aside>
-    </section>
-  </div>
+    </div>
+  </section>
 
-  <!-- ======= AVAILABILITY ======= -->
-  <div class="wrap" id="boka">
-    <section class="section" aria-label="Kalender och bokning">
-      <h2>Kalender – lediga veckor</h2>
-      <div class="legend" aria-hidden="true">
-        <span class="chip"><span class="dot ok"></span> Ledigt</span>
-        <span class="chip"><span class="dot pending"></span> På förfrågan</span>
-        <span class="chip"><span class="dot no"></span> Bokat</span>
+  <!-- AVAILABILITY / BOOK -->
+  <section class="container section" id="boka">
+    <h2 class="center">Kalender – lediga veckor</h2>
+    <div class="legend">
+      <span class="chip"><span class="dot ok"></span> Ledigt</span>
+      <span class="chip"><span class="dot pending"></span> På förfrågan</span>
+      <span class="chip"><span class="dot no"></span> Bokat</span>
+    </div>
+    <div class="grid calendar" aria-live="polite">
+      <!-- Kopiera och uppdatera veckor -->
+      <div class="week available"><strong>Vecka 2</strong> <small class="muted">6–12 jan</small> <span class="tag ok">Ledigt</span></div>
+      <div class="week"><strong>Vecka 3</strong> <small class="muted">13–19 jan</small> <span class="tag pending">På förfrågan</span></div>
+      <div class="week booked"><strong>Vecka 4</strong> <small class="muted">20–26 jan</small> <span class="tag no">Bokat</span></div>
+      <div class="week available"><strong>Vecka 5</strong> <small class="muted">27 jan–2 feb</small> <span class="tag ok">Ledigt</span></div>
+    </div>
+
+    <div class="section split">
+      <div class="paper list center">
+        <h2>Så här bokar du</h2>
+        <ol style="display:inline-block; text-align:left; margin:0; padding-left:18px">
+          <li>Välj en <strong>ledig vecka</strong> ovan.</li>
+          <li>Klicka på <strong>“Skicka bokningsförfrågan”</strong> och fyll i uppgifterna.</li>
+          <li>Vi bekräftar via e-post/SMS och skickar betalinfo.</li>
+        </ol>
+        <p class="notice">Särskilda önskemål (spjälsäng, sen ankomst)? Lägg till i meddelandefältet.</p>
       </div>
+      <aside class="contact center">
+        <h2>Boka nu</h2>
+        <div class="stack">
+          <a class="btn block" href="https://docs.google.com/forms/d/DIN_FORM_ID/viewform" target="_blank" rel="noopener">Skicka bokningsförfrågan</a>
+          <a class="btn block" href="#om">Läs mer om stugan</a>
+        </div>
+      </aside>
+    </div>
+  </section>
 
-      <div class="calendar" aria-live="polite">
-        <!-- Toggle status by class + tag text: available / booked / (no class = pending) -->
-        <div class="week available">
-          <strong>Vecka 2</strong> <small class="muted">6–12 jan</small>
-          <span class="tag ok">Ledigt</span>
-        </div>
-        <div class="week">
-          <strong>Vecka 3</strong> <small class="muted">13–19 jan</small>
-          <span class="tag pending">På förfrågan</span>
-        </div>
-        <div class="week booked">
-          <strong>Vecka 4</strong> <small class="muted">20–26 jan</small>
-          <span class="tag no">Bokat</span>
-        </div>
-        <div class="week available">
-          <strong>Vecka 5</strong> <small class="muted">27 jan–2 feb</small>
-          <span class="tag ok">Ledigt</span>
-        </div>
-
-        <!-- Kopiera fler kort nedan -->
-        <div class="week available">
-          <strong>Vecka 6</strong> <small class="muted">3–9 feb</small>
-          <span class="tag ok">Ledigt</span>
-        </div>
-        <div class="week booked">
-          <strong>Vecka 7</strong> <small class="muted">10–16 feb</small>
-          <span class="tag no">Bokat</span>
-        </div>
-        <div class="week available">
-          <strong>Vecka 8</strong> <small class="muted">17–23 feb</small>
-          <span class="tag ok">Ledigt</span>
-        </div>
-        <div class="week">
-          <strong>Vecka 9</strong> <small class="muted">24 feb–2 mar</small>
-          <span class="tag pending">På förfrågan</span>
-        </div>
+  <!-- REVIEWS / FAQ -->
+  <section class="container section" id="faq">
+    <div class="grid faq">
+      <div class="paper list" style="width:100%">
+        <h2 class="center">Reviews</h2>
+        <p class="center muted">Lägg in gästcitat här (eller länka till Google Maps/FB recensioner).</p>
       </div>
-
-      <div class="section paper split" style="margin-top:16px">
-        <div class="list">
-          <h2>Så här bokar du</h2>
-          <ol>
-            <li>Välj en <strong>ledig vecka</strong> i listan ovan.</li>
-            <li>Klicka på <strong>“Skicka bokningsförfrågan”</strong> och fyll i uppgifterna.</li>
-            <li>Du får svar via e-post/SMS med bekräftelse och betalinfo.</li>
-          </ol>
-          <p class="notice">Särskilda önskemål (spjälsäng, sen ankomst)? Lägg till i meddelandefältet.</p>
-        </div>
-        <aside class="contact">
-          <h2>Boka nu</h2>
-          <div class="stack">
-            <a class="btn block" href="https://docs.google.com/forms/d/DIN_FORM_ID/viewform" target="_blank" rel="noopener">Skicka bokningsförfrågan</a>
-            <a class="btn block" href="#detaljer">Se alla detaljer</a>
-          </div>
-        </aside>
+      <div class="paper list" style="width:100%">
+        <h2 class="center">Vanliga frågor</h2>
+        <details><summary>Ingår sängkläder och handdukar?</summary><div class="answer">Valfritt tillägg. Meddela i bokningsformuläret.</div></details>
+        <details><summary>Är slutstädning inkluderad?</summary><div class="answer">Nej, men kan läggas till. Instruktioner finns i stugan.</div></details>
+        <details><summary>Är husdjur tillåtna?</summary><div class="answer">Tyvärr inte. Stugan är rök- och djurfri.</div></details>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 
-  <!-- ======= STICKY MOBILE BAR ======= -->
+  <!-- CONTACT / HOURS -->
+  <section class="container section" id="kontakt">
+    <div class="paper list center" style="padding:20px">
+      <h2>Kontakt & öppettider</h2>
+      <p class="muted">516 Kläppen · 780 68 Transtrand · Tel: +46 70 000 00 00 · <a href="mailto:familj@dindomain.se">familj@dindomain.se</a></p>
+      <div class="grid" style="grid-template-columns:repeat(4,minmax(0,1fr)); width:100%">
+        <div><strong>Mån–Fre</strong><br><span class="muted">09:00–17:00</span></div>
+        <div><strong>Lör</strong><br><span class="muted">Stängt</span></div>
+        <div><strong>Sön</strong><br><span class="muted">Stängt</span></div>
+        <div><strong>Akut</strong><br><span class="muted">Vid behov enligt överenskommelse</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKY MOBILE BAR -->
   <div class="sticky" aria-hidden="true">
     <div class="inner">
-      <div style="font-weight:700">Kläppen-stugan</div>
+      <div style="font-weight:800">516 Kläppen</div>
       <div style="display:flex; gap:8px">
         <a class="smBtn" href="tel:+46700000000">Ring</a>
         <a class="smBtn primary" href="https://docs.google.com/forms/d/DIN_FORM_ID/viewform" target="_blank" rel="noopener">Boka</a>
@@ -378,19 +341,14 @@
     </div>
   </div>
 
-  <!-- ======= FOOTER ======= -->
-  <div class="wrap">
-    <footer>
-      <div>© <span id="year"></span> Kläppen-stugan. Alla rättigheter förbehålles.</div>
-      <div>Endast nödvändiga cookies. Inga spårare.</div>
-    </footer>
-  </div>
+  <!-- FOOTER -->
+  <footer class="container">
+    <div>© <span id="year"></span> 516 Kläppen. Alla rättigheter förbehålles.</div>
+  </footer>
 
   <script>
-    // Auto-year
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    // On load: nudge to first available week, only on larger screens (prevents jumpiness on phones)
+    // Nudge to first available week on larger screens
     window.addEventListener('load', () => {
       if (window.matchMedia('(min-width: 700px)').matches) {
         const first = document.querySelector('.week.available');
