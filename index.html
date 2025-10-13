@@ -358,107 +358,154 @@
   </footer>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Nudge to first available week on larger screens (after render)
-    function nudgeToFirstAvailable(){
-      if (window.matchMedia('(min-width: 700px)').matches) {
-        const first = document.querySelector('.week.available');
-        if (first) first.scrollIntoView({behavior:'smooth', block:'center'});
-      }
-    }
-
-    /* ================== Season calendar ================== */
-    const SEASONS = {
+    // Footer year
+    (function(){var y=document.getElementById('year'); if(y) y.textContent=(new Date()).getFullYear();})();
+  
+    /* ============ Robust season calendar (GH Pages friendly) ============ */
+    // Seasons
+    var SEASONS = {
       winter: { start: '2025-11-01', end: '2026-04-30', label: 'Vinter 2025–2026' },
       summer: { start: '2026-05-01', end: '2026-10-31', label: 'Sommar 2026' }
     };
-
-    // Admin: mark specific weeks here. Keys = "YYYY-Www". Values: 'booked' | 'pending' | 'available'
-    const WEEK_STATUS = {
-      // examples – edit/remove freely:
+  
+    // Admin availability: keys are ISO week codes "YYYY-Www". Values: 'booked' | 'pending' | 'available'
+    var WEEK_STATUS = {
+      // examples — edit freely:
       '2025-W48': 'booked',
       '2025-W52': 'booked',
       '2026-W01': 'pending',
       '2026-W07': 'booked',
-      '2026-W28': 'pending', 
-      '2026-W30': 'available'
+      '2026-W28': 'pending'
     };
-
-    const fmt = new Intl.DateTimeFormat('sv-SE', { day:'numeric', month:'short' });
-    function toDate(s){ const [y,m,d] = s.split('-').map(Number); return new Date(Date.UTC(y,m-1,d)); }
-    function addDays(d, n){ const r = new Date(d); r.setUTCDate(r.getUTCDate()+n); return r; }
-    function startOfISOWeek(d){
-      const day = (d.getUTCDay() + 6) % 7; // Mon=0..Sun=6
-      const res = new Date(d); res.setUTCDate(d.getUTCDate() - day); return res;
+  
+    // ---- Small utilities (avoid newer syntax for max compatibility) ----
+    function toDate(str){ // 'YYYY-MM-DD' -> Date (local, 12:00 to dodge DST)
+      var p=str.split('-'); var d=new Date(+p[0], +p[1]-1, +p[2], 12, 0, 0, 0);
+      return d;
     }
-    function clampToRange(d, start, end){ const s = d < start ? start : d; return s > end ? end : s; }
-    function isoWeekYear(d){ const thu = addDays(d, 3 - ((d.getUTCDay()+6)%7)); return thu.getUTCFullYear(); }
+    function addDays(d,n){ var r=new Date(d.getTime()); r.setDate(r.getDate()+n); return r; }
+    function startOfISOWeek(d){ // Monday as week start
+      var r=new Date(d.getTime());
+      var dow = (r.getDay()+6)%7; // Mon=0..Sun=6
+      r.setDate(r.getDate()-dow);
+      return r;
+    }
+    function clamp(d, a, b){
+      return d < a ? a : (d > b ? b : d);
+    }
+    function isoWeekYear(d){
+      // Week belongs to the year containing the Thursday
+      var wday = (d.getDay()+6)%7; // 0..6
+      var thu = addDays(d, 3 - wday);
+      return thu.getFullYear();
+    }
     function isoWeekNumber(d){
-      const thursday = addDays(d, 3 - ((d.getUTCDay()+6)%7));
-      const firstThu = new Date(Date.UTC(thursday.getUTCFullYear(), 0, 4));
-      const week = 1 + Math.round((startOfISOWeek(thursday) - startOfISOWeek(firstThu)) / (7*24*3600*1000));
-      return week.toString().padStart(2,'0');
+      var wday = (d.getDay()+6)%7;
+      var thu = addDays(d, 3 - wday);
+      var year = thu.getFullYear();
+      var firstThu = new Date(year, 0, 4, 12); // Jan 4th, 12:00
+      var week0 = startOfISOWeek(firstThu);
+      var diffDays = Math.round((startOfISOWeek(thu)-week0)/(24*3600*1000));
+      var wn = 1 + Math.round(diffDays/7);
+      return ('0'+wn).slice(-2);
     }
-
+  
+    // locale-safe short month formatter (fallback if Intl missing)
+    var MONTHS = ['jan','feb','mars','apr','maj','juni','juli','aug','sep','okt','nov','dec'];
+    function fmtRange(a,b){
+      try{
+        if (typeof Intl !== 'undefined' && Intl.DateTimeFormat){
+          var f = new Intl.DateTimeFormat('sv-SE', {day:'numeric', month:'short'});
+          return f.format(a) + '–' + f.format(b);
+        }
+      }catch(_){}
+      return a.getDate() + ' ' + MONTHS[a.getMonth()] + '–' + b.getDate() + ' ' + MONTHS[b.getMonth()];
+    }
+  
     function buildWeeks(seasonKey){
-      const {start, end} = SEASONS[seasonKey];
-      const startDate = toDate(start), endDate = toDate(end);
-      let cursor = startOfISOWeek(startDate);
-      if (cursor < startDate) cursor = addDays(cursor, 7);
-      const weeks = [];
-      while (cursor <= endDate){
-        const weekStart = cursor, weekEnd = addDays(weekStart, 6);
-        if (weekStart > endDate) break;
-        const shownStart = clampToRange(weekStart, startDate, endDate);
-        const shownEnd = clampToRange(weekEnd, startDate, endDate);
-        const key = `${isoWeekYear(weekStart)}-W${isoWeekNumber(weekStart)}`;
-        weeks.push({ key, week: Number(isoWeekNumber(weekStart)), from: shownStart, to: shownEnd });
-        cursor = addDays(cursor, 7);
+      var start=toDate(SEASONS[seasonKey].start), end=toDate(SEASONS[seasonKey].end);
+      // first Monday on/after season start
+      var c = startOfISOWeek(start);
+      if (c < start) c = addDays(c, 7);
+  
+      var out=[];
+      while (c <= end){
+        var ws=c, we=addDays(ws,6);
+        if (ws > end) break;
+  
+        var key = isoWeekYear(ws) + '-W' + isoWeekNumber(ws);
+        out.push({
+          key:key,
+          week: parseInt(isoWeekNumber(ws), 10),
+          from: clamp(ws, start, end),
+          to:   clamp(we, start, end)
+        });
+        c = addDays(c, 7);
       }
-      return weeks;
+      return out;
     }
-
-    function statusFor(key){ return WEEK_STATUS[key] || 'available'; }
-
+  
+    function statusFor(key){
+      return WEEK_STATUS.hasOwnProperty(key) ? WEEK_STATUS[key] : 'available';
+    }
+  
     function renderCalendar(seasonKey){
-      const grid = document.getElementById('calendarGrid');
+      var grid = document.getElementById('calendarGrid');
+      if (!grid) return;
       grid.innerHTML = '';
-      buildWeeks(seasonKey).forEach(({key, week, from, to}) => {
-        const s = statusFor(key);
-        const div = document.createElement('div');
-        div.className = `week ${s === 'booked' ? 'booked' : s === 'pending' ? '' : 'available'}`;
-        div.innerHTML = `
-          <strong>Vecka ${week}</strong>
-          <small class="muted">${fmt.format(from)}–${fmt.format(to)}</small>
-          <span class="tag ${s === 'booked' ? 'no' : s === 'pending' ? 'pending' : 'ok'}">
-            ${s === 'booked' ? 'Bokat' : s === 'pending' ? 'På förfrågan' : 'Ledigt'}
-          </span>
-        `;
-        // click to copy ISO week code (useful when replying to guests)
-        div.title = \`Kopiera vecka: ${key}\`;
+  
+      var weeks = buildWeeks(seasonKey);
+      for (var i=0;i<weeks.length;i++){
+        var w = weeks[i];
+        var s = statusFor(w.key);
+        var div = document.createElement('div');
+        div.className = 'week ' + (s==='booked' ? 'booked' : (s==='pending' ? '' : 'available'));
+        div.innerHTML =
+          '<strong>Vecka ' + w.week + '</strong>' +
+          '<small class="muted">' + fmtRange(w.from, w.to) + '</small>' +
+          '<span class="tag ' + (s==='booked'?'no':(s==='pending'?'pending':'ok')) + '">' +
+            (s==='booked'?'Bokat':(s==='pending'?'På förfrågan':'Ledigt')) +
+          '</span>';
+        // Copy ISO code on click
+        div.title = 'Kopiera vecka: ' + w.key;
         div.style.cursor = 'copy';
-        div.addEventListener('click', () => navigator.clipboard?.writeText(key));
+        div.addEventListener('click', function(code){
+          return function(){ if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(code); } };
+        }(w.key));
         grid.appendChild(div);
-      });
-      nudgeToFirstAvailable();
+      }
+      // nudge after render
+      if (window.matchMedia && window.matchMedia('(min-width: 700px)').matches) {
+        var first = document.querySelector('.week.available');
+        if (first && first.scrollIntoView) first.scrollIntoView({behavior:'smooth', block:'center'});
+      }
     }
-
-    function setActiveSeason(seasonKey){
-      document.querySelectorAll('.toggleBtn').forEach(btn => {
-        const active = btn.dataset.season === seasonKey;
-        btn.classList.toggle('active', active);
-        btn.setAttribute('aria-selected', String(active));
-      });
-      renderCalendar(seasonKey);
+  
+    function setActiveSeason(key){
+      var tabs = document.querySelectorAll('.toggleBtn');
+      for (var i=0;i<tabs.length;i++){
+        var a = (tabs[i].getAttribute('data-season')===key);
+        if (a) { tabs[i].classList.add('active'); tabs[i].setAttribute('aria-selected','true'); }
+        else   { tabs[i].classList.remove('active'); tabs[i].setAttribute('aria-selected','false'); }
+      }
+      renderCalendar(key);
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      setActiveSeason('winter'); // default
-      document.querySelectorAll('.toggleBtn').forEach(btn => {
-        btn.addEventListener('click', () => setActiveSeason(btn.dataset.season));
-      });
-    });
+  
+    // Init after DOM is ready
+    (function(){
+      function init(){
+        setActiveSeason('winter'); // default season
+        var tabs = document.querySelectorAll('.toggleBtn');
+        for (var i=0;i<tabs.length;i++){
+          tabs[i].addEventListener('click', function(){
+            setActiveSeason(this.getAttribute('data-season'));
+          });
+        }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else { init(); }
+    })();
   </script>
 </body>
 </html>
