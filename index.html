@@ -96,7 +96,7 @@
     .btn.block{justify-content:center; width:100%}
     .notice{font-size:var(--fs--1); color:var(--muted); text-align:center}
 
-    /* Availability */
+    /* Availability legend + cards (base) */
     .legend{display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap; font-size:var(--fs--1); margin-bottom:8px}
     .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--line); border-radius:999px; background:var(--paper)}
     .dot{width:10px; height:10px; border-radius:999px}
@@ -110,6 +110,14 @@
     .tag.ok{border-color:rgba(22,163,74,.35); color:#065f46}
     .tag.no{border-color:rgba(239,68,68,.35); color:#7f1d1d}
     .tag.pending{border-color:rgba(245,158,11,.35); color:#7a3d00}
+
+    /* Season toggle */
+    .seasonToggle{display:flex; justify-content:center; gap:10px; margin: 8px 0 12px}
+    .toggleBtn{
+      padding:10px 14px; border-radius:999px; border:1px solid var(--line);
+      background:var(--paper); font-weight:800; cursor:pointer; box-shadow:var(--shadow)
+    }
+    .toggleBtn.active{background:var(--brand); color:#fff; border-color:var(--brand)}
 
     /* FAQ / Reviews */
     .faq{grid-template-columns: repeat(2, minmax(0,1fr))}
@@ -267,24 +275,27 @@
   <!-- AVAILABILITY / BOOK -->
   <section class="container section" id="boka">
     <h2 class="center">Kalender – lediga veckor</h2>
+
+    <!-- season toggle -->
+    <div class="seasonToggle" role="tablist" aria-label="Säsongsväljare">
+      <button class="toggleBtn active" role="tab" aria-selected="true" data-season="winter">Vinter 2025–2026</button>
+      <button class="toggleBtn" role="tab" aria-selected="false" data-season="summer">Sommar 2026</button>
+    </div>
+
     <div class="legend">
       <span class="chip"><span class="dot ok"></span> Ledigt</span>
       <span class="chip"><span class="dot pending"></span> På förfrågan</span>
       <span class="chip"><span class="dot no"></span> Bokat</span>
     </div>
-    <div class="grid calendar" aria-live="polite">
-      <!-- Kopiera och uppdatera veckor -->
-      <div class="week available"><strong>Vecka 2</strong> <small class="muted">6–12 jan</small> <span class="tag ok">Ledigt</span></div>
-      <div class="week"><strong>Vecka 3</strong> <small class="muted">13–19 jan</small> <span class="tag pending">På förfrågan</span></div>
-      <div class="week booked"><strong>Vecka 4</strong> <small class="muted">20–26 jan</small> <span class="tag no">Bokat</span></div>
-      <div class="week available"><strong>Vecka 5</strong> <small class="muted">27 jan–2 feb</small> <span class="tag ok">Ledigt</span></div>
-    </div>
+
+    <!-- weeks grid populated by JS -->
+    <div class="grid calendar" id="calendarGrid" aria-live="polite"></div>
 
     <div class="section split">
       <div class="paper list center">
         <h2>Så här bokar du</h2>
         <ol style="display:inline-block; text-align:left; margin:0; padding-left:18px">
-          <li>Välj en <strong>ledig vecka</strong> ovan.</li>
+          <li>Välj en <strong>ledig vecka</strong> i listan ovan.</li>
           <li>Klicka på <strong>“Skicka bokningsförfrågan”</strong> och fyll i uppgifterna.</li>
           <li>Vi bekräftar via e-post/SMS och skickar betalinfo.</li>
         </ol>
@@ -348,12 +359,104 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    // Nudge to first available week on larger screens
-    window.addEventListener('load', () => {
+
+    // Nudge to first available week on larger screens (after render)
+    function nudgeToFirstAvailable(){
       if (window.matchMedia('(min-width: 700px)').matches) {
         const first = document.querySelector('.week.available');
         if (first) first.scrollIntoView({behavior:'smooth', block:'center'});
       }
+    }
+
+    /* ================== Season calendar ================== */
+    const SEASONS = {
+      winter: { start: '2025-11-01', end: '2026-04-30', label: 'Vinter 2025–2026' },
+      summer: { start: '2026-05-01', end: '2026-10-31', label: 'Sommar 2026' }
+    };
+
+    // Admin: mark specific weeks here. Keys = "YYYY-Www". Values: 'booked' | 'pending' | 'available'
+    const WEEK_STATUS = {
+      // examples – edit/remove freely:
+      '2025-W48': 'booked',
+      '2025-W52': 'booked',
+      '2026-W01': 'pending',
+      '2026-W07': 'booked',
+      '2026-W28': 'pending'
+    };
+
+    const fmt = new Intl.DateTimeFormat('sv-SE', { day:'numeric', month:'short' });
+    function toDate(s){ const [y,m,d] = s.split('-').map(Number); return new Date(Date.UTC(y,m-1,d)); }
+    function addDays(d, n){ const r = new Date(d); r.setUTCDate(r.getUTCDate()+n); return r; }
+    function startOfISOWeek(d){
+      const day = (d.getUTCDay() + 6) % 7; // Mon=0..Sun=6
+      const res = new Date(d); res.setUTCDate(d.getUTCDate() - day); return res;
+    }
+    function clampToRange(d, start, end){ const s = d < start ? start : d; return s > end ? end : s; }
+    function isoWeekYear(d){ const thu = addDays(d, 3 - ((d.getUTCDay()+6)%7)); return thu.getUTCFullYear(); }
+    function isoWeekNumber(d){
+      const thursday = addDays(d, 3 - ((d.getUTCDay()+6)%7));
+      const firstThu = new Date(Date.UTC(thursday.getUTCFullYear(), 0, 4));
+      const week = 1 + Math.round((startOfISOWeek(thursday) - startOfISOWeek(firstThu)) / (7*24*3600*1000));
+      return week.toString().padStart(2,'0');
+    }
+
+    function buildWeeks(seasonKey){
+      const {start, end} = SEASONS[seasonKey];
+      const startDate = toDate(start), endDate = toDate(end);
+      let cursor = startOfISOWeek(startDate);
+      if (cursor < startDate) cursor = addDays(cursor, 7);
+      const weeks = [];
+      while (cursor <= endDate){
+        const weekStart = cursor, weekEnd = addDays(weekStart, 6);
+        if (weekStart > endDate) break;
+        const shownStart = clampToRange(weekStart, startDate, endDate);
+        const shownEnd = clampToRange(weekEnd, startDate, endDate);
+        const key = `${isoWeekYear(weekStart)}-W${isoWeekNumber(weekStart)}`;
+        weeks.push({ key, week: Number(isoWeekNumber(weekStart)), from: shownStart, to: shownEnd });
+        cursor = addDays(cursor, 7);
+      }
+      return weeks;
+    }
+
+    function statusFor(key){ return WEEK_STATUS[key] || 'available'; }
+
+    function renderCalendar(seasonKey){
+      const grid = document.getElementById('calendarGrid');
+      grid.innerHTML = '';
+      buildWeeks(seasonKey).forEach(({key, week, from, to}) => {
+        const s = statusFor(key);
+        const div = document.createElement('div');
+        div.className = `week ${s === 'booked' ? 'booked' : s === 'pending' ? '' : 'available'}`;
+        div.innerHTML = `
+          <strong>Vecka ${week}</strong>
+          <small class="muted">${fmt.format(from)}–${fmt.format(to)}</small>
+          <span class="tag ${s === 'booked' ? 'no' : s === 'pending' ? 'pending' : 'ok'}">
+            ${s === 'booked' ? 'Bokat' : s === 'pending' ? 'På förfrågan' : 'Ledigt'}
+          </span>
+        `;
+        // click to copy ISO week code (useful when replying to guests)
+        div.title = \`Kopiera vecka: ${key}\`;
+        div.style.cursor = 'copy';
+        div.addEventListener('click', () => navigator.clipboard?.writeText(key));
+        grid.appendChild(div);
+      });
+      nudgeToFirstAvailable();
+    }
+
+    function setActiveSeason(seasonKey){
+      document.querySelectorAll('.toggleBtn').forEach(btn => {
+        const active = btn.dataset.season === seasonKey;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-selected', String(active));
+      });
+      renderCalendar(seasonKey);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setActiveSeason('winter'); // default
+      document.querySelectorAll('.toggleBtn').forEach(btn => {
+        btn.addEventListener('click', () => setActiveSeason(btn.dataset.season));
+      });
     });
   </script>
 </body>
