@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Stuga i Kläppen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f2f2f2;
+        }
+        .hero {
+            width: 100%;
+            max-height: 400px;
+            overflow: hidden;
+        }
+        .hero img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .container {
+            padding: 20px;
+            max-width: 900px;
+            margin: auto;
+            background: white;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .info {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .calendar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 20px;
+        }
+        .week {
+            flex: 0 0 calc(100% / 5 - 10px);
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .available {
+            background-color: #a8e6a3;
+        }
+        .booked {
+            background-color: #f59b9b;
+        }
+        @media (max-width: 600px) {
+            .week {
+                flex: 0 0 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <img src="DIN_BILD_LÄNK_HÄR.jpg" alt="Stugan i Kläppen">
+    </div>
+
+    <div class="container">
+        <h1>Stuga i Kläppen – Uthyres</h1>
+        <div class="info">
+            <p>8 bäddar – bastu – wifi – öppen spis – parkering – kök</p>
+            <p><strong>Ski-in / Ski-out – Mitt i pisten – Nära lift och längdspår</strong></p>
+            <p>Pris: <strong>4000 kr/vecka</strong></p>
+            <p><strong>Rökfritt & inga husdjur</strong></p>
+            <p>Kontakta via sms: <strong>070000000</strong></p>
+        </div>
+
+        <h2>Kalender – Lediga veckor</h2>
+        <div class="calendar">
+            <div class="week available">Vecka 27<br>1–7 juli</div>
+            <div class="week booked">Vecka 28<br>8–14 juli</div>
+            <div class="week available">Vecka 29<br>15–21 juli</div>
+            <div class="week booked">Vecka 30<br>22–28 juli</div>
+            <div class="week available">Vecka 31<br>29 juli–4 aug</div>
+            <!-- Fyll på fler veckor här -->
+        </div>
+    </div>
+
+</body>
+</html>
