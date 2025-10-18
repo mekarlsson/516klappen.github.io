@@ -135,6 +135,26 @@
     /* Footer */
     footer{padding: clamp(20px, 4vw, 32px) 0; color:var(--muted); font-size:var(--fs--1); text-align:center}
 
+    /* Compact month view */
+    .summaryCounts{ text-align:center; margin:10px 0 6px; font-weight:800 }
+    .monthGrid{ display:grid; gap:10px }
+    .monthRow{ display:grid; grid-template-columns: 160px 1fr; gap:10px; align-items:start }
+    .monthName{ font-weight:800; text-transform:capitalize; text-align:right; padding:8px 6px }
+    .weeksWrap{ display:flex; flex-wrap:wrap; gap:6px }
+    .weekPill{
+      font-weight:800; font-size:var(--fs--1); line-height:1;
+      border-radius:999px; padding:10px 12px; border:1px solid var(--line);
+      background:var(--paper); user-select:text; cursor:default; /* not clickable */
+    }
+    .weekPill.ok{ background:color-mix(in srgb, var(--ok) 12%, var(--paper)); border-color:color-mix(in srgb, var(--ok) 38%, var(--line)); }
+    .weekPill.pending{ background:color-mix(in srgb, var(--warn) 12%, var(--paper)); border-color:color-mix(in srgb, var(--warn) 38%, var(--line)); }
+    .weekPill.no{ background:color-mix(in srgb, var(--no) 12%, var(--paper)); border-color:color-mix(in srgb, var(--no) 38%, var(--line)); }
+    .weekPill .range{ opacity:.75; margin-left:6px; font-weight:600 }
+    @media (max-width: 700px){
+      .monthRow{ grid-template-columns: 1fr }
+      .monthName{ text-align:left }
+    }
+    
     /* Responsive */
     @media (max-width: 1100px){
       .features{grid-template-columns: repeat(2, minmax(0,1fr))}
@@ -288,7 +308,8 @@
     </div>
 
     <!-- weeks grid populated by JS -->
-    <div class="grid calendar" id="calendarGrid" aria-live="polite"></div>
+    <div class="summaryCounts" id="seasonSummary" aria-live="polite"></div>
+    <div class="monthGrid" id="calendarGrid" aria-label="Veckokalender, ej interaktiv"></div>
 
     <div class="section split">
       <div class="paper list center">
@@ -435,36 +456,62 @@
     function statusFor(key){
       return WEEK_STATUS.hasOwnProperty(key) ? WEEK_STATUS[key] : 'available';
     }
-  
+    
     function renderCalendar(seasonKey){
       var grid = document.getElementById('calendarGrid');
+      var summary = document.getElementById('seasonSummary');
       if (!grid) return;
       grid.innerHTML = '';
   
+      // Build weeks and group by month name (sv-SE)
+      var fMonth = new Intl.DateTimeFormat('sv-SE', { month:'long', year:'numeric' });
       var weeks = buildWeeks(seasonKey);
+  
+      // Totals
+      var count = { ok:0, pending:0, no:0 };
+      // Group map: { "november 2025": [weekObjs...] }
+      var groups = {};
       for (var i=0;i<weeks.length;i++){
         var w = weeks[i];
-        var s = statusFor(w.key);
-        var div = document.createElement('div');
-        div.className = 'week ' + (s==='booked' ? 'booked' : (s==='pending' ? '' : 'available'));
-        div.innerHTML =
-          '<strong>Vecka ' + w.week + '</strong>' +
-          '<small class="muted">' + fmtRange(w.from, w.to) + '</small>' +
-          '<span class="tag ' + (s==='booked'?'no':(s==='pending'?'pending':'ok')) + '">' +
-            (s==='booked'?'Bokat':(s==='pending'?'På förfrågan':'Ledigt')) +
-          '</span>';
-        // Copy ISO code on click
-        div.title = 'Kopiera vecka: ' + w.key;
-        div.style.cursor = 'copy';
-        div.addEventListener('click', function(code){
-          return function(){ if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(code); } };
-        }(w.key));
-        grid.appendChild(div);
+        var status = statusFor(w.key);                 // booked | pending | available
+        var cls = (status==='booked'?'no':(status==='pending'?'pending':'ok'));
+        if (cls==='no') count.no++; else if (cls==='pending') count.pending++; else count.ok++;
+  
+        var label = fMonth.format(w.from).toLowerCase(); // ex: "november 2025"
+        if (!groups[label]) groups[label] = [];
+        groups[label].push({ week:w.week, range:fmtRange(w.from, w.to), cls:cls });
       }
-      // nudge after render
-      if (window.matchMedia && window.matchMedia('(min-width: 700px)').matches) {
-        var first = document.querySelector('.week.available');
-        if (first && first.scrollIntoView) first.scrollIntoView({behavior:'smooth', block:'center'});
+  
+      // Render months
+      Object.keys(groups).forEach(function(label){
+        var row = document.createElement('div');
+        row.className = 'monthRow';
+  
+        var name = document.createElement('div');
+        name.className = 'monthName muted';
+        name.textContent = label;
+  
+        var wrap = document.createElement('div');
+        wrap.className = 'weeksWrap';
+  
+        groups[label].forEach(function(w){
+          var pill = document.createElement('span');
+          pill.className = 'weekPill ' + w.cls;
+          pill.setAttribute('aria-label', 'Vecka ' + w.week + ' ' + w.range + (w.cls==='no'?' (Bokat)':w.cls==='pending'?' (På förfrågan)':' (Ledigt)'));
+          pill.innerHTML = 'v' + w.week + '<span class="range">' + w.range + '</span>';
+          // Intentionally no click handler; not interactive.
+          wrap.appendChild(pill);
+        });
+  
+        row.appendChild(name);
+        row.appendChild(wrap);
+        grid.appendChild(row);
+      });
+  
+      // Summary line
+      if (summary){
+        var total = count.ok + count.pending + count.no;
+        summary.textContent = 'Totalt ' + total + ' veckor • Lediga: ' + count.ok + ' • På förfrågan: ' + count.pending + ' • Bokat: ' + count.no;
       }
     }
   
