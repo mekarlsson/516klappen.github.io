@@ -484,12 +484,10 @@
     
       var out = [];
       while (c <= end){
-        var ws = c;              // Sunday
-        var we = addDays(ws, 6); // Saturday
-    
-        if (ws > end) break;
-    
+        var ws = c;              // Sunday (arrival)
+        var we = addDays(ws, 7); // Sunday (departure)
         var sw = skiWeek(ws);
+
         var key = sw.year + '-W' + ('0' + sw.week).slice(-2);
     
         out.push({
