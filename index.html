@@ -477,16 +477,16 @@
         var ws=c, we=addDays(ws,6);
         if (ws > end) break;
   
-        var arrivalSunday = addDays(ws, -1); // Sunday before Monday
+        var arrivalSunday = addDays(ws, -1); // Sunday starting the stay
 
-        var key =
-          sundayWeekYear(arrivalSunday) +
-          '-W' +
-          sundayWeekNumber(arrivalSunday);
+        var isoYear = isoWeekYear(arrivalSunday);
+        var isoWeek = isoWeekNumber(arrivalSunday);
+        
+        var key = isoYear + '-W' + isoWeek;
         
         out.push({
           key: key,
-          week: parseInt(sundayWeekNumber(arrivalSunday), 10),
+          week: parseInt(isoWeek, 10),
           from: clamp(ws, start, end),
           to:   clamp(we, start, end)
         });
