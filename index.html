@@ -455,13 +455,20 @@
         var ws=c, we=addDays(ws,6);
         if (ws > end) break;
   
-        var key = isoWeekYear(ws) + '-W' + isoWeekNumber(ws);
+        var checkout = addDays(ws, 7); // second Sunday
+
+        var key =
+          sundayWeekYear(checkout) +
+          '-W' +
+          sundayWeekNumber(checkout);
+        
         out.push({
-          key:key,
-          week: parseInt(isoWeekNumber(ws), 10),
+          key: key,
+          week: parseInt(sundayWeekNumber(checkout), 10),
           from: clamp(ws, start, end),
           to:   clamp(we, start, end)
         });
+
         c = addDays(c, 7);
       }
       return out;
