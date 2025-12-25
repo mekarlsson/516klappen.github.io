@@ -381,23 +381,26 @@
     /* ============ Robust season calendar (GH Pages friendly) ============ */
     // Seasons
     var SEASONS = {
-      winter: { start: '2025-11-01', end: '2026-04-30', label: 'Vinter 2025–2026' },
+      winter: { start: '2025-12-01', end: '2026-04-30', label: 'Vinter 2025–2026' },
       summer: { start: '2026-05-01', end: '2026-10-31', label: 'Sommar 2026' }
     };
   
     // Admin availability: keys are ISO week codes "YYYY-Www". Values: 'booked' | 'pending' | 'available'
     var WEEK_STATUS = {
-      // examples — edit freely:
       '2025-W51': 'booked',
       '2025-W52': 'booked',
-      '2026-W01': 'pending',
+      '2026-W01': 'booked',
+      '2026-W02': 'pending',
+      '2026-W03': 'pending',
       '2026-W04': 'booked',
       '2026-W05': 'booked',
       '2026-W07': 'pending',
       '2026-W08': 'booked',
       '2026-W09': 'booked',
+      '2026-W10': 'booked',
       '2026-W15': 'booked',
-      '2026-W26': 'pending'
+      '2026-W26': 'pending', 
+      '2026-W33': 'booked', 
     };
   
     // ---- Small utilities (avoid newer syntax for max compatibility) ----
