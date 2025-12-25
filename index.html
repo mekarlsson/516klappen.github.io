@@ -431,6 +431,28 @@
       var wn = 1 + Math.round(diffDays/7);
       return ('0'+wn).slice(-2);
     }
+
+    // ---- Sunday-based week helpers (for Sunday→Sunday stays) ----
+    function startOfSundayWeek(d){
+      var r = new Date(d.getTime());
+      r.setDate(r.getDate() - r.getDay()); // Sunday = 0
+      return r;
+    }
+    
+    function sundayWeekYear(d){
+      return startOfSundayWeek(d).getFullYear();
+    }
+    
+    function sundayWeekNumber(d){
+      var yearStart = new Date(d.getFullYear(), 0, 1, 12);
+      var firstSunday = startOfSundayWeek(yearStart);
+      if (firstSunday > yearStart) firstSunday = addDays(firstSunday, -7);
+      var diffDays = Math.round(
+        (startOfSundayWeek(d) - firstSunday) / (24 * 3600 * 1000)
+      );
+      var wn = 1 + Math.floor(diffDays / 7);
+      return ('0' + wn).slice(-2);
+    }
   
     // locale-safe short month formatter (fallback if Intl missing)
     var MONTHS = ['jan','feb','mars','apr','maj','juni','juli','aug','sep','okt','nov','dec'];
