@@ -475,28 +475,30 @@
     }
   
     function buildWeeks(seasonKey){
-      var start=toDate(SEASONS[seasonKey].start), end=toDate(SEASONS[seasonKey].end);
-      // first Monday on/after season start
-      var c = startOfISOWeek(start);
+      var start = toDate(SEASONS[seasonKey].start),
+          end   = toDate(SEASONS[seasonKey].end);
+    
+      // first Sunday on/after season start
+      var c = startOfSundayWeek(start);
       if (c < start) c = addDays(c, 7);
-  
-      var out=[];
+    
+      var out = [];
       while (c <= end){
-        var ws=c, we=addDays(ws,6);
+        var ws = c;              // Sunday
+        var we = addDays(ws, 6); // Saturday
+    
         if (ws > end) break;
-  
-        var arrivalSunday = addDays(ws, -1);
-
-        var sw = skiWeek(arrivalSunday);
+    
+        var sw = skiWeek(ws);
         var key = sw.year + '-W' + ('0' + sw.week).slice(-2);
-        
+    
         out.push({
           key: key,
           week: sw.week,
           from: clamp(ws, start, end),
           to:   clamp(we, start, end)
         });
-
+    
         c = addDays(c, 7);
       }
       return out;
