@@ -477,16 +477,14 @@
         var ws=c, we=addDays(ws,6);
         if (ws > end) break;
   
-        var arrivalSunday = addDays(ws, -1); // Sunday starting the stay
+        var arrivalSunday = addDays(ws, -1);
 
-        var isoYear = isoWeekYear(arrivalSunday);
-        var isoWeek = isoWeekNumber(arrivalSunday);
-        
-        var key = isoYear + '-W' + isoWeek;
+        var sw = skiWeek(arrivalSunday);
+        var key = sw.year + '-W' + ('0' + sw.week).slice(-2);
         
         out.push({
           key: key,
-          week: parseInt(isoWeek, 10),
+          week: sw.week,
           from: clamp(ws, start, end),
           to:   clamp(we, start, end)
         });
