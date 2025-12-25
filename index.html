@@ -432,26 +432,34 @@
       return ('0'+wn).slice(-2);
     }
 
+    function skiWeek(d){
+      // Swedish ski week rule (Sunday–Sunday)
+      // Week 1 = the week that contains Jan 1
+    
+      var sunday = startOfSundayWeek(d);
+      var saturday = addDays(sunday, 6);
+    
+      var year = sunday.getFullYear();
+      var jan1 = new Date(year, 0, 1, 12);
+    
+      // If Jan 1 falls inside this Sun–Sat span → week 1
+      if (jan1 >= sunday && jan1 <= saturday) {
+        return { year: year, week: 1 };
+      }
+    
+      // Otherwise, count weeks from the Sunday containing Jan 1
+      var firstSunday = startOfSundayWeek(jan1);
+      var diffDays = Math.round((sunday - firstSunday) / (24*3600*1000));
+      var week = 1 + Math.floor(diffDays / 7);
+    
+      return { year: year, week: week };
+    }
+
     // ---- Sunday-based week helpers (for Sunday→Sunday stays) ----
     function startOfSundayWeek(d){
       var r = new Date(d.getTime());
       r.setDate(r.getDate() - r.getDay()); // Sunday = 0
       return r;
-    }
-    
-    function sundayWeekYear(d){
-      return startOfSundayWeek(d).getFullYear();
-    }
-    
-    function sundayWeekNumber(d){
-      var yearStart = new Date(d.getFullYear(), 0, 1, 12);
-      var firstSunday = startOfSundayWeek(yearStart);
-      if (firstSunday > yearStart) firstSunday = addDays(firstSunday, -7);
-      var diffDays = Math.round(
-        (startOfSundayWeek(d) - firstSunday) / (24 * 3600 * 1000)
-      );
-      var wn = 1 + Math.floor(diffDays / 7);
-      return ('0' + wn).slice(-2);
     }
   
     // locale-safe short month formatter (fallback if Intl missing)
