@@ -184,22 +184,39 @@
   <!-- JSON-LD -->
   <script type="application/ld+json">
   {
-    "@context":"https://schema.org",
-    "@type":"LodgingBusiness",
-    "name":"516 Kläppen",
-    "description":"Familjevänlig stuga halvvägs upp för backen i Kläppen. Ski-in/ski-out, bastu, kamin och Wi-Fi.",
-    "amenityFeature":[
-      {"@type":"LocationFeatureSpecification","name":"Ski-in/ski-out","value":true},
-      {"@type":"LocationFeatureSpecification","name":"Bastu","value":true},
-      {"@type":"LocationFeatureSpecification","name":"Öppen spis","value":true},
-      {"@type":"LocationFeatureSpecification","name":"Wi-Fi","value":true},
-      {"@type":"LocationFeatureSpecification","name":"Parkering","value":true}
+    "@context": "https://schema.org",
+    "@type": ["LodgingBusiness", "VacationRental"],
+    "name": "516 Kläppen",
+    "description": "Familjevänlig stuga i Sälen (Kläppen), halvvägs upp för backen. Ski-in/ski-out, bastu, kamin och snabbt Wi-Fi.",
+    "url": "https://516kläppen.com/",
+    "telephone": "+46703275845",
+    "image": [
+      "https://516kläppen.com/klappen_hus_2copy.jpeg",
+      "https://516kläppen.com/klappen_appen.jpeg"
     ],
-    "address":{"@type":"PostalAddress","addressCountry":"SE","addressLocality":"Kläppen"},
-    "image":"OG_IMAGE_1200x630.jpg",
-    "url":"https://www.dindomain.se",
-    "telephone":"+46703275845",
-    "priceRange":"7000 SEK/vecka (1000 SEK/dygn)"
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Pistvägen 516 A",
+      "postalCode": "780 68",
+      "addressLocality": "Transtrand",
+      "addressRegion": "Dalarna",
+      "addressCountry": "SE"
+    },
+    "amenityFeature": [
+      { "@type": "LocationFeatureSpecification", "name": "Ski-in/ski-out", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Bastu", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Kamin / öppen spis", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Wi-Fi", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Parkering", "value": true }
+    ],
+    "numberOfRooms": 2,
+    "occupancy": {
+      "@type": "QuantitativeValue",
+      "value": 8,
+      "unitText": "persons"
+    },
+    "priceRange": "7000 SEK/vecka",
+    "sameAs": []
   }
   </script>
 </head>
