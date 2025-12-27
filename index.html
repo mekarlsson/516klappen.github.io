@@ -116,9 +116,49 @@
     .card h3{margin:6px 0 4px; font-size:var(--fs-1); line-height:1.2}
 
     /* Gallery / Explore */
-    .gallery{grid-template-columns: repeat(3, minmax(0,1fr))}
-    .tile{border-radius:var(--r-lg); overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow)}
-    .tile img{aspect-ratio:4/3; object-fit:cover}
+    .gallery{
+      grid-template-columns: repeat(3, minmax(0,1fr));
+    }
+    
+    .tile{
+      position: relative;
+      padding: 0;
+      border-radius: var(--r-lg);
+      overflow: hidden;
+    
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      background: var(--paper);
+      cursor: pointer;
+    }
+    
+    .tile img{
+      display: block;
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+    }
+    
+    .caption{
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      text-align: center;
+    
+      background: rgba(0,0,0,.55);
+      color: #fff;
+      font-weight: 600;
+    
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+    
+    .tile.active .caption{
+      opacity: 1;
+    }
 
     /* Split blocks */
     .split{display:grid; grid-template-columns: 1.1fr .9fr; gap: clamp(12px, 3vw, 18px); align-items:start}
@@ -334,10 +374,22 @@
   <!-- EXPLORE / GALLERY -->
   <section class="container section" id="utforska" aria-label="Utforska Kläppen">
     <h2 class="center">Utforska Kläppen</h2>
+  
     <div class="grid gallery">
-      <a class="tile" href="#" aria-label="Vinter"><img src="klappen_appen.jpeg" alt="Stuga vinter i mysigt ljus"></a>
-      <a class="tile" href="#" aria-label="Norrsken"><img src="klappen_norrsken.jpeg" alt="Norrsken"></a>
-      <a class="tile" href="#" aria-label="Eldstad"><img src="klappen_eldstad.jpeg" alt="Eldstad"></a>
+      <button class="tile" type="button">
+        <img src="klappen_appen.jpeg" alt="Stugan på vintern">
+        <span class="caption">Vintervy över Kläppen – lugnt, snösäkert och familjevänligt.</span>
+      </button>
+  
+      <button class="tile" type="button">
+        <img src="klappen_norrsken.jpeg" alt="Norrsken över fjällen">
+        <span class="caption">Norrsken över fjällen under klara vinterkvällar.</span>
+      </button>
+  
+      <button class="tile" type="button">
+        <img src="klappen_eldstad.jpeg" alt="Eldstad vid stugan">
+        <span class="caption">Eldstad för mysiga kvällar efter en dag i backen.</span>
+      </button>
     </div>
   </section>
 
@@ -666,6 +718,12 @@
         document.addEventListener('DOMContentLoaded', init);
       } else { init(); }
     })();
+    
+    document.querySelectorAll('.tile').forEach(function(tile){
+      tile.addEventListener('click', function(){
+        tile.classList.toggle('active');
+      });
+    });
   </script>
 </body>
 </html>
