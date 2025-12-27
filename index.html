@@ -730,7 +730,11 @@
       grid.innerHTML = '';
   
       // Build weeks and group by month name (sv-SE)
-      var fMonth = new Intl.DateTimeFormat('sv-SE', { month:'long', year:'numeric' });
+      // Short month names: Dec 2025, Jan 2026
+      var fMonth = new Intl.DateTimeFormat('sv-SE', {
+        month: 'short',
+        year: 'numeric'
+      });
       var weeks = buildWeeks(seasonKey);
   
       // Totals
