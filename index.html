@@ -109,6 +109,24 @@
     .btn:hover{transform:translateY(-1px)}
     .btn.outline{background:transparent; color:#fff; border-color:rgba(255,255,255,.7)}
     .btn.icon svg{width:18px; height:18px}
+    /* Primary button (white, filled) */
+    .btn.primary{
+      background:#fff;
+      color:#111;
+      border-color:#fff;
+    }
+    
+    /* Outline buttons (no fill) */
+    .btn.outline-dark{
+      background:transparent;
+      color:var(--ink);
+      border:1px solid var(--line);
+      box-shadow:none;
+    }
+    
+    .btn.outline-dark:hover{
+      background: color-mix(in srgb, var(--ink) 6%, transparent);
+    }
 
     /* Features */
     .features{grid-template-columns: repeat(4, minmax(0,1fr))}
@@ -158,6 +176,18 @@
     
     .tile.active .caption{
       opacity: 1;
+    }
+
+    .tile{
+      -webkit-appearance: none;
+      appearance: none;
+      font: inherit;
+      color: inherit;
+    }
+    
+    .tile:focus-visible{
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
     }
 
     /* Split blocks */
@@ -316,7 +346,7 @@
           <h1>Charmigt familjeboende i Kläppen, Sälen</h1>
           <p class="sub">Två sovrum (8 bäddar), bastu, kamin, snabbt Wi-Fi och parkering – halvvägs upp för backen. Boka ditt perfekta semesterboende redan idag.</p>
           <div class="cta">
-            <a class="btn icon" href="#boka" aria-label="Gå till bokning">
+            <a class="btn primary icon" href="#boka" aria-label="Gå till bokning">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
               Se lediga veckor & boka
             </a>
@@ -454,8 +484,8 @@
       <aside class="contact center">
         <h2>Boka nu</h2>
         <div class="stack">
-          <a class="btn block" href="https://docs.google.com/forms/d/e/1FAIpQLSd9ln4SxS2innp2ePUCPE21DtUbBS9gO1Y-4n2cksiLSqfEuw/viewform?usp=preview" target="_blank" rel="noopener">Skicka bokningsförfrågan</a>
-          <a class="btn block" href="#om">Läs mer om stugan</a>
+          <a class="btn block primary" href="https://docs.google.com/forms/d/e/1FAIpQLSd9ln4SxS2innp2ePUCPE21DtUbBS9gO1Y-4n2cksiLSqfEuw/viewform?usp=preview" target="_blank" rel="noopener">Skicka bokningsförfrågan</a>
+          <a class="btn block outline-dark" href="#om">Läs mer om stugan</a>
         </div>
       </aside>
     </div>
@@ -729,8 +759,20 @@
     
     document.querySelectorAll('.tile').forEach(function(tile){
       tile.addEventListener('click', function(){
-        tile.classList.toggle('active');
+        var isActive = tile.classList.contains('active');
+        document.querySelectorAll('.tile.active').forEach(function(t){
+          t.classList.remove('active');
+        });
+        if (!isActive) tile.classList.add('active');
       });
+    });
+    
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape'){
+        document.querySelectorAll('.tile.active').forEach(function(t){
+          t.classList.remove('active');
+        });
+      }
     });
   </script>
 </body>
