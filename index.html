@@ -169,11 +169,14 @@
       padding: 0;
       border-radius: var(--r-lg);
       overflow: hidden;
-    
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
       background: var(--paper);
       cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      font: inherit;
+      color: inherit;
     }
     
     .tile img{
@@ -202,13 +205,6 @@
     
     .tile.active .caption{
       opacity: 1;
-    }
-
-    .tile{
-      -webkit-appearance: none;
-      appearance: none;
-      font: inherit;
-      color: inherit;
     }
     
     .tile:focus-visible{
