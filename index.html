@@ -39,8 +39,8 @@
     
       /* Brand */
       --brand:#1b1b1b;
-      --accent:#0f766e; /* teal */
-      --ok:#16a34a; --no:#ef4444; --warn:#f59e0b;
+      --accent:#0b5f57; /* djupare teal */
+      --ok:#22c55e; /* tydligare grön, mindre teal */; --no:#ef4444; --warn:#f59e0b;
     
       /* Softer shadow */
       --shadow: 0 18px 45px rgba(17, 12, 7, .08);
@@ -67,7 +67,7 @@
         --muted:#b4ada6;
         --line:#27231f;
     
-        --accent:#14b8a6; /* ljusare teal i dark */
+        --accent:#14b8a6; /* behåll ljus teal i dark */
         --shadow: 0 18px 55px rgba(0,0,0,.55);
       }
     }
@@ -166,22 +166,20 @@
     /* Primary CTA: teal som syns på vit/ljus bakgrund + i dark mode */
     .btn.primary{
       background: var(--accent);
-      color: #fff;
-      border-color: color-mix(in srgb, var(--accent) 80%, #000);
+      color:#fff;
+      border-color: color-mix(in srgb, var(--accent) 75%, #000);
     }
     
     .btn.primary:hover{
-      filter: brightness(1.05);
+      filter: brightness(1.06);
     }
     
     .btn.primary:active{
-      filter: brightness(.98);
+      filter: brightness(.96);
+      transform: translateY(0); /* känns som ett tryck */
     }
     
-    /* Ikon följer textfärg */
-    .btn.primary svg{
-      stroke: currentColor;
-    }
+    .btn.primary svg{ stroke: currentColor; }
     
     /* Hero outline button (transparent on image) */
     .btn.outline{
