@@ -224,6 +224,7 @@
       width: 100%;
       aspect-ratio: 4/3;
       object-fit: cover;
+      transition: transform .35s ease;
     }
     
     .caption{
@@ -261,7 +262,12 @@
       outline-offset: 3px;
     }
 
-    /* Split blocks */
+    @media (hover: hover) and (pointer: fine){
+      .tile:hover img{
+        transform: scale(1.04);
+      }
+    }
+
     /* Split blocks */
     .split{
       display:grid;
