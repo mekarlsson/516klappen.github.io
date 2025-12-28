@@ -389,6 +389,29 @@
     /* A11y / motion / print */
     @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important} }
     @media print{ .nav,.hero,.cta,.features,.gallery,.sticky,footer{display:none !important} body{background:#fff;color:#000} .container{padding:0} }
+
+    /* =========================
+       Vänsterställ ENDAST
+       Detaljer & pris + Kontakt
+       ========================= */
+    
+    /* Detaljer & pris */
+    #detaljer .paper.list{
+      text-align: left;
+    }
+    
+    /* Kontaktkortet */
+    #detaljer .paper.contact{
+      text-align: left;
+    }
+    
+    /* säkerställ att textblock följer vänster */
+    #detaljer p,
+    #detaljer ul,
+    #detaljer ol{
+      margin-left: 0;
+      margin-right: auto;
+    }
   </style>
 
   <!-- JSON-LD -->
