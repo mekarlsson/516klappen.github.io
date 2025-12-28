@@ -306,6 +306,45 @@
     }
     
     .contact{padding: clamp(22px, 3vw, 28px)}
+
+    /* === Detaljer & pris: vänster, luftig, läsbar === */
+    .details{
+      text-align: left;
+    }
+    
+    .details h2{
+      text-align: left;
+    }
+    
+    .details p,
+    .details ul,
+    .details ol{
+      margin-left: 0;
+      margin-right: auto;
+      max-width: 60ch;
+    }
+    
+    /* === Kontaktkort: vänster innehåll === */
+    .contact-card{
+      text-align: left;
+    }
+    
+    .contact-card h2{
+      text-align: left;
+    }
+    
+    /* knappar ska fortfarande vara full bredd */
+    .contact-card .btn{
+      text-align: center;
+    }
+    
+    /* adressen: centrerad & lugn (som Lovable) */
+    .contact-card .muted{
+      text-align: center;
+      margin-top: 14px;
+      font-size: var(--fs--1);
+    }
+    
     .stack{display:flex; flex-direction:column; gap:12px}
     .btn.block{justify-content:center; width:100%}
     .notice{font-size:var(--fs--1); color:var(--muted); text-align:center}
@@ -550,14 +589,14 @@
   <!-- DETAILS / CONTACT -->
   <section class="container section" id="detaljer">
     <div class="split">
-      <div class="paper list center">
+      <div class="paper list details">
         <h2>Detaljer & pris</h2>
         <p><strong>Pris:</strong> <span id="pris">7000 SEK/vecka (1000 SEK/dygn)</span> </p> 
         <p>(säsongsvariationer förekommer)</p> 
         <p><strong>Rökfritt</strong> och <strong>inga husdjur</strong></p>
         <p class="muted">Faktura/Swish efter bekräftad bokning.</p>
       </div>
-      <aside class="paper contact center">
+      <aside class="paper contact contact-card">
         <h2>Kontakt</h2>
         <div class="stack" role="group" aria-label="Kontaktalternativ">
           <a class="btn block primary" href="https://docs.google.com/forms/d/e/1FAIpQLSd9ln4SxS2innp2ePUCPE21DtUbBS9gO1Y-4n2cksiLSqfEuw/viewform?usp=preview" target="_blank" rel="noopener">
