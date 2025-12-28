@@ -85,11 +85,11 @@
     img{display:block; max-width:100%; height:auto}
 
     .container{max-width:var(--maxw); margin-inline:auto; padding-inline:var(--gutter);}
-    .section{margin-block: clamp(28px, 5vw, 48px)}
+    .section{margin-block: clamp(40px, 7vw, 76px)}
     .paper{background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow)}
     .muted{color:var(--muted)}
     .center{text-align:center}
-    .grid{display:grid; gap: clamp(10px, 2.5vw, 16px); justify-items:center}
+    .grid{display:grid; gap: clamp(16px, 3vw, 26px); justify-items:center}
 
     /* Nav */
     .nav{display:flex; align-items:center; justify-content:space-between; gap:12px; padding-block:12px}
@@ -262,21 +262,24 @@
     }
     
     /* Kort-padding (mer luft) */
-    .list{
-      padding: clamp(22px, 3vw, 28px);
+    .list,
+    .contact{
+      padding: clamp(26px, 3.5vw, 38px);
     }
     
     /* Rubriker i kort: mer “premium” rytm */
-    .list h2{
-      margin: 0 0 18px;
-      line-height: 1.15;
+    .list h2,
+    .contact h2{
+      margin: 0 0 20px;
+      line-height: 1.12;
     }
     
     /* Brödtext i kort: maxbredd + luft */
-    .list p{
-      margin: 0 0 14px;
+    .list p,
+    .contact p{
+      margin: 0 0 16px;
       line-height: 1.75;
-      max-width: 58ch;
+      max-width: 60ch;
       margin-inline: auto;
     }
     
@@ -288,12 +291,13 @@
     /* listor: lite mer luft */
     .list ul,
     .list ol{
-      margin: 10px 0 0;
+      margin: 12px 0 0;
       padding-left: 18px;
       line-height: 1.7;
-      max-width: 58ch;
+      max-width: 60ch;
       margin-inline: auto;
     }
+    .list li{margin: 6px 0}
     
     /* sekundär text lugnare */
     .list .muted{
@@ -302,7 +306,7 @@
     }
     
     .contact{padding: clamp(22px, 3vw, 28px)}
-    .stack{display:flex; flex-direction:column; gap:10px}
+    .stack{display:flex; flex-direction:column; gap:12px}
     .btn.block{justify-content:center; width:100%}
     .notice{font-size:var(--fs--1); color:var(--muted); text-align:center}
 
@@ -378,6 +382,8 @@
       .features, .calendar{grid-template-columns:1fr}
       .sticky{display:block}
       h1{font-size:var(--fs-3)}
+      .list,
+      .contact{padding:22px}
     }
 
     /* A11y / motion / print */
