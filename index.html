@@ -182,6 +182,21 @@
     .btn.primary svg{
       stroke: currentColor;
     }
+
+    /* Hero CTA ska vara vit (inte teal) */
+    .hero .btn.hero-primary{
+      background:#fff;
+      color:#111;
+      border-color: rgba(0,0,0,.12);
+    }
+    
+    .hero .btn.hero-primary:hover{
+      background:#f7f7f7;
+    }
+    
+    .hero .btn.hero-primary svg{
+      stroke: currentColor;
+    }
     
     /* Hero outline button (transparent on image) */
     .btn.outline{
@@ -555,7 +570,7 @@
           <h1>Charmigt familjeboende i Kläppen, Sälen</h1>
           <p class="sub">Två sovrum samt loft (8 bäddar), bastu, kamin, snabbt Wi-Fi och ski in / ski out. </p>
           <div class="cta">
-            <a class="btn primary icon" href="#boka" aria-label="Gå till bokning">
+            <a class="btn primary hero-primary icon" href="#boka" aria-label="Gå till bokning">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
               Se lediga veckor & boka
             </a>
