@@ -456,6 +456,17 @@
       .monthRow{ grid-template-columns: 1fr }
       .monthName{ text-align:left }
     }
+
+    .weekPill.premium{
+      border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+    }
+    
+    .weekPill.premium::after{
+      content:"★";
+      margin-left:8px;
+      opacity:.95;
+      color: var(--accent);
+    }
     
     /* Responsive */
     @media (max-width: 1100px){
@@ -641,7 +652,7 @@
       <div class="paper list details">
         <h2>Detaljer & pris</h2>
         <p><strong>Pris:</strong> <span id="pris">7000 SEK/vecka (1000 SEK/dygn)</span> </p> 
-        <p>(säsongsvariationer förekommer)</p> 
+        <p class="muted">★ Vecka 7–9 samt 14-15: 10 000 kr/vecka</p>
         <p><strong>Rökfritt</strong> och <strong>inga husdjur</strong></p>
         <p class="muted">Faktura/Swish efter bekräftad bokning.</p>
       </div>
@@ -771,6 +782,17 @@
       '2026-W26': 'pending', 
       '2026-W33': 'booked', 
     };
+
+    var PREMIUM_WEEKS = {
+      '2026-W07': true,
+      '2026-W08': true,
+      '2026-W09': true,
+      '2026-W14': true
+    };
+    
+    function isPremiumWeek(key){
+      return PREMIUM_WEEKS.hasOwnProperty(key);
+    }
   
     // ---- Small utilities (avoid newer syntax for max compatibility) ----
     function toDate(str){ // 'YYYY-MM-DD' -> Date (local, 12:00 to dodge DST)
@@ -913,7 +935,12 @@
   
         var label = fMonth.format(w.from).toLowerCase(); // ex: "november 2025"
         if (!groups[label]) groups[label] = [];
-        groups[label].push({ week:w.week, range:fmtRange(w.from, w.to), cls:cls });
+        groups[label].push({
+          week: w.week,
+          range: fmtRange(w.from, w.to),
+          cls: cls,
+          premium: isPremiumWeek(w.key)
+        });
       }
   
       // Render months
@@ -930,7 +957,7 @@
   
         groups[label].forEach(function(w){
           var pill = document.createElement('span');
-          pill.className = 'weekPill ' + w.cls;
+          pill.className = 'weekPill ' + w.cls + (w.premium ? ' premium' : '');
           pill.setAttribute('aria-label', 'Vecka ' + w.week + ' ' + w.range + (w.cls==='no'?' (Bokat)':w.cls==='pending'?' (På förfrågan)':' (Ledigt)'));
           pill.innerHTML = 'v' + w.week + '<span class="range">' + w.range + '</span>';
           // Intentionally no click handler; not interactive.
