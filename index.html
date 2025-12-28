@@ -243,8 +243,17 @@
       transition: opacity .25s ease;
     }
     
+    /* click (mobil) */
     .tile.active .caption{
       opacity: 1;
+    }
+    
+    /* hover + keyboard (desktop) */
+    @media (hover: hover) and (pointer: fine){
+      .tile:hover .caption,
+      .tile:focus-visible .caption{
+        opacity: 1;
+      }
     }
     
     .tile:focus-visible{
@@ -926,8 +935,16 @@
       } else { init(); }
     })();
     
+    function isTouch(){
+      return window.matchMedia('(pointer: coarse)').matches;
+    }
+    
     document.querySelectorAll('.tile').forEach(function(tile){
       tile.addEventListener('click', function(){
+        // Desktop: hover sköter allt
+        if (!isTouch()) return;
+    
+        // Mobil: tap togglar caption
         var isActive = tile.classList.contains('active');
         document.querySelectorAll('.tile.active').forEach(function(t){
           t.classList.remove('active');
