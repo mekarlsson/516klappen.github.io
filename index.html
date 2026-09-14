@@ -462,7 +462,7 @@
     }
     
     .weekPill.premium::after{
-      content:"★";
+      content:"";
       margin-left:8px;
       opacity:.95;
       color: var(--accent);
@@ -484,10 +484,6 @@
       .list,
       .contact{padding:22px}
     }
-
-    /* A11y / motion / print */
-    @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important} }
-    @media print{ .nav,.hero,.cta,.features,.gallery,.sticky,footer{display:none !important} body{background:#fff;color:#000} .container{padding:0} }
 
     /* =========================
        Vänsterställ ENDAST
@@ -664,8 +660,8 @@
 
     <!-- season toggle -->
     <div class="seasonToggle" role="tablist" aria-label="Säsongsväljare">
-      <button class="toggleBtn active" role="tab" aria-selected="true" data-season="winter">Vinter 2025–2026</button>
-      <button class="toggleBtn" role="tab" aria-selected="false" data-season="summer">Sommar 2026</button>
+      <button class="toggleBtn active" role="tab" aria-selected="true" data-season="winter">Vinter 2026–2027</button>
+      <button class="toggleBtn" role="tab" aria-selected="false" data-season="summer">Sommar 2027</button>
     </div>
 
     <div class="legend">
@@ -681,8 +677,8 @@
     <div class="section split">
      <div class="paper list details">
         <h2>Detaljer & pris</h2>
-        <p><strong>Pris:</strong> <span id="pris">7000 SEK/vecka (1000 SEK/dygn)</span> </p> 
-        <p class="muted">★ Vecka 7–9 samt 14-15: 10 000 kr/vecka</p>
+        <p><strong>Pris:</strong> <span id="pris">7700 SEK/vecka (1100 SEK/dygn)</span> </p> 
+        <p class="muted"> Vecka 7–9 samt 12-13: 11 000 kr/vecka</p>
         <p><strong>Rökfritt</strong> och <strong>inga husdjur</strong></p>
         <p class="muted">Faktura/Swish efter bekräftad bokning.</p>
       </div>
@@ -741,33 +737,25 @@
     /* ============ Robust season calendar (GH Pages friendly) ============ */
     // Seasons
     var SEASONS = {
-      winter: { start: '2025-12-01', end: '2026-04-30', label: 'Vinter 2025–2026' },
-      summer: { start: '2026-05-01', end: '2026-10-31', label: 'Sommar 2026' }
+      winter: { start: '2026-12-01', end: '2027-04-30', label: 'Vinter 2026–2027' },
+      summer: { start: '2027-05-01', end: '2027-10-31', label: 'Sommar 2027' }
     };
   
     // Admin availability: keys are ISO week codes "YYYY-Www". Values: 'booked' | 'pending' | 'available'
     var WEEK_STATUS = {
-      '2025-W51': 'booked',
-      '2025-W52': 'booked',
-      '2026-W01': 'booked',
-      '2026-W02': 'booked',
-      '2026-W03': 'pending',
-      '2026-W04': 'booked',
-      '2026-W05': 'booked',
-      '2026-W07': 'booked',
-      '2026-W08': 'booked',
-      '2026-W09': 'booked',
-      '2026-W10': 'booked',
-      '2026-W11': 'booked',
-      '2026-W15': 'booked',
-      '2026-W33': 'booked', 
+      '2026-W51': 'booked',
+      '2027-W07': 'booked',
+      '2027-W08': 'booked',
+      '2027-W09': 'booked',
+      '2027-W11': 'booked',
+      '2027-W13': 'booked',
     };
 
     var PREMIUM_WEEKS = {
-      '2026-W07': true,
-      '2026-W08': true,
-      '2026-W09': true,
-      '2026-W14': true
+      '2027-W07': true,
+      '2027-W08': true,
+      '2027-W09': true,
+      '2027-W14': true
     };
     
     function isPremiumWeek(key){
@@ -838,7 +826,7 @@
       return { year: year, week: week };
     }
 
-    // ---- Sunday-based week helpers (for Sunday→Sunday stays) ----
+    // ---- Sunday-based week helpers (for SundaySunday stays) ----
     function startOfSundayWeek(d){
       var r = new Date(d.getTime());
       r.setDate(r.getDate() - r.getDay()); // Sunday = 0
@@ -896,7 +884,7 @@
       grid.innerHTML = '';
   
       // Build weeks and group by month name (sv-SE)
-      // Short month names: Dec 2025, Jan 2026
+      // Short month names: Dec 2026, Jan 2027
       var fMonth = new Intl.DateTimeFormat('sv-SE', {
         month: 'short',
         year: 'numeric'
@@ -905,7 +893,7 @@
   
       // Totals
       var count = { ok:0, pending:0, no:0 };
-      // Group map: { "november 2025": [weekObjs...] }
+      // Group map: { "november 2026": [weekObjs...] }
       var groups = {};
       for (var i=0;i<weeks.length;i++){
         var w = weeks[i];
@@ -913,7 +901,7 @@
         var cls = (status==='booked'?'no':(status==='pending'?'pending':'ok'));
         if (cls==='no') count.no++; else if (cls==='pending') count.pending++; else count.ok++;
   
-        var label = fMonth.format(w.from).toLowerCase(); // ex: "november 2025"
+        var label = fMonth.format(w.from).toLowerCase(); // ex: "november 2026"
         if (!groups[label]) groups[label] = [];
         groups[label].push({
           week: w.week,
