@@ -795,34 +795,13 @@
     }
 
     function skiWeek(d){
-      // Swedish ski week (Sunday–Sunday)
-      // Week 1 = the week that contains Jan 1
-      // The YEAR is the year of Jan 1 in that week
-    
-      var sunday = startOfSundayWeek(d);
-      var saturday = addDays(sunday, 6);
-    
-      // Determine which Jan 1 we should test against
-      var year = sunday.getFullYear();
-      var jan1 = new Date(year, 0, 1, 12);
-    
-      // If this week spills into January of the NEXT year,
-      // then it belongs to the next ski year
-      if (sunday.getMonth() === 11 && saturday.getMonth() === 0) {
-        year = year + 1;
-        jan1 = new Date(year, 0, 1, 12);
-      }
-    
-      // Week 1: the week containing Jan 1
-      if (jan1 >= sunday && jan1 <= saturday) {
-        return { year: year, week: 1 };
-      }
-    
-      // Otherwise count from the Sunday of week 1
-      var firstSunday = startOfSundayWeek(jan1);
-      var diffDays = Math.round((sunday - firstSunday) / (24*3600*1000));
-      var week = 1 + Math.floor(diffDays / 7);
-    
+      // A Sunday-Sunday ski week primarily spans the following ISO week.
+      // By checking the Thursday (+4 days from Sunday arrival), 
+      // the calculation perfectly aligns with Swedish standard week numbers.
+      var thursday = addDays(d, 4);
+      var year = isoWeekYear(thursday);
+      var week = parseInt(isoWeekNumber(thursday), 10);
+      
       return { year: year, week: week };
     }
 
